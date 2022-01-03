@@ -65,7 +65,7 @@
 
 # this is a test message to check git.
 
-#damage = ((base.GetTotalElxir() / 26) * 8  + 400)  {26 ko variable kaise banau} 
+#damage = ((base.GetTotalElixir() / 26) * 8  + 400)  {26 ko variable kaise banau} 
 
 
 from random import randint,choice
@@ -77,7 +77,9 @@ def ActRobot(robot):
                 
                 robot.DeployVirus(robot.GetVirus())
                 t = robot.GetPosition()
+                
                 if not robot.GetCurrentBaseSignal():
+                        
                         if robot.investigate_up() == 'enemy-base':
                                 robot.setSignal("E:{},{}".format(t[0], t[1]-1))
                                 return 0
@@ -108,15 +110,13 @@ def ActRobot(robot):
                
                 if robot.GetYourSignal() == 'patrol_up' or robot.GetYourSignal() == 'patrol_right' or robot.GetYourSignal() == 'patrol_down' or robot.GetYourSignal() == 'patrol_left':
                         
-                        robot.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
+                        robot.DeployVirus( ((robot.GetTotalElixir() / 26) * 8  + 400) )
                         return 0
                 
                 if not robot.GetCurrentBaseSignal():
                         
                         if robot.GetInitialSignal() == 'explore' or robot.GetYourSignal() == 'explore':
-                                
                                 robot.DeployVirus( robot.GetVirus() * 0.1) 
-                                
                                 if robot.investigate_up() == 'enemy':
                                         return choice([2, 3, 4])
                                 elif robot.investigate_right() == 'enemy':
@@ -141,6 +141,7 @@ def ActRobot(robot):
                                 return 4
                 
                 if abs(enemy_pos[0] - bot_pos[0]) < abs(enemy_pos[1] - bot_pos[1]):
+                        
                         if (enemy_pos[1] - bot_pos[1]) > 0:
                                 return 3
                         elif (enemy_pos[1] - bot_pos[1]) < 0:
@@ -203,12 +204,14 @@ def ActBase(base):
                         base.SetYourSignal(i)
 
         if (base.investigate_down() == 'enemy' or base.investigate_up() == 'enemy' or base.investigate_right() == 'enemy' or base.investigate_left() == 'enemy' or base.investigate_ne() == 'enemy' or base.investigate_nw() == 'enemy' or base.investigate_se() == 'enemy' or base.investigate_sw() == 'enemy') or (base.investigate_down() == 'enemy-base' or base.investigate_up() == 'enemy-base' or base.investigate_right() == 'enemy-base' or base.investigate_left() == 'enemy-base' or base.investigate_ne() == 'enemy-base' or base.investigate_nw() == 'enemy-base' or base.investigate_se() == 'enemy-base' or base.investigate_sw() == 'enemy-base'):
-                base.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
+                base.DeployVirus( ((base.GetTotalElixir() / 26) * 8  + 400) )
                 
                 
         # format is -> ( elixir we will be allocated at start ) - ( num of robots we want ) * ( cost of robot= 50 )
         if base.GetElixir() > (2000 - 4*50): # we want 4 patrol robots  
+                
                 base.create_robot('patrol')     
+        
         elif base.GetElixir() > (2000 - 30*50):
                 
                 for i in patrol_spots:
