@@ -65,6 +65,8 @@
 
 # this is a test message to check git.
 
+#damage = ((base.GetTotalElxir() / 26) * 8  + 400)  {26 ko variable kaise banau} 
+
 
 from random import randint,choice
 
@@ -102,12 +104,14 @@ def ActRobot(robot):
                 # return 0
         
         if (robot.investigate_down() == 'enemy' or robot.investigate_up() == 'enemy' or robot.investigate_right() == 'enemy' or robot.investigate_left() == 'enemy' or robot.investigate_ne() == 'enemy' or robot.investigate_nw() == 'enemy' or robot.investigate_se() == 'enemy' or robot.investigate_sw() == 'enemy'):
+               
                 if robot.GetYourSignal() == 'patrol_up' or robot.GetYourSignal() == 'patrol_right' or robot.GetYourSignal() == 'patrol_down' or robot.GetYourSignal() == 'patrol_left':
-                        robot.DeployVirus(1600)
+                        robot.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
                         return 0
+                
                 if not robot.GetCurrentBaseSignal():
                         if robot.GetInitialSignal() == 'explore' or robot.GetYourSignal() == 'explore':
-                                robot.DeployVirus(800)
+                                robot.DeployVirus( robot.GetVirus() * 0.1) 
                                 if robot.investigate_up() == 'enemy':
                                         return choice([2, 3, 4])
                                 elif robot.investigate_right() == 'enemy':
@@ -177,25 +181,30 @@ def ActRobot(robot):
                 return choice([2, 3, 1])
         else:
                 return randint(1,4)
-
-
+        
 
 def ActBase(base):
+        
         patrol_spots = ['patrol_up', 'patrol_right', 'patrol_down', 'patrol_left']
-
+       
         for i in base.GetListOfSignals():
                 if i.startswith('E:'):
                         base.SetYourSignal(i)
 
         if (base.investigate_down() == 'enemy' or base.investigate_up() == 'enemy' or base.investigate_right() == 'enemy' or base.investigate_left() == 'enemy' or base.investigate_ne() == 'enemy' or base.investigate_nw() == 'enemy' or base.investigate_se() == 'enemy' or base.investigate_sw() == 'enemy') or (base.investigate_down() == 'enemy-base' or base.investigate_up() == 'enemy-base' or base.investigate_right() == 'enemy-base' or base.investigate_left() == 'enemy-base' or base.investigate_ne() == 'enemy-base' or base.investigate_nw() == 'enemy-base' or base.investigate_se() == 'enemy-base' or base.investigate_sw() == 'enemy-base'):
-                base.DeployVirus(2400)
-        if base.GetElixir() > 1800:
-                base.create_robot('patrol')
-        elif base.GetElixir() > 500:
+                base.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
+                
+                
+        # format is -> ( elixir we will be allocated at start ) - ( num of robots we want ) * ( cost of robot= 50 )
+        if base.GetElixir() > (2000 - 4*50): # we want 4 patrol robots  
+                base.create_robot('patrol')     
+        elif base.GetElixir() > (2000 - 30*50):
+                
                 for i in patrol_spots:
-                        if i not in base.GetListOfSignals() and base.GetElixir() > 500:
+                        if i not in base.GetListOfSignals() and base.GetElixir() > (2000 - 30*50): # we can adjust upto 30 - 26 = 4 extra robots
                                 base.create_robot(i)
-                if base.GetElixir() > 700:       
+                                
+                if base.GetElixir() > (2000 - 26*50):       
                         base.create_robot('explore')
 
         return
