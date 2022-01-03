@@ -65,7 +65,7 @@
 
 # this is a test message to check git.
 
-#damage = ((base.GetTotalElxir() / 26) * 8  + 400)  {26 ko variable kaise banau} 
+#damage = ((base.GetTotalElixir() / 26) * 8  + 400)  {26 ko variable kaise banau} 
 
 
 from random import randint,choice
@@ -110,7 +110,7 @@ def ActRobot(robot):
                
                 if robot.GetYourSignal() == 'patrol_up' or robot.GetYourSignal() == 'patrol_right' or robot.GetYourSignal() == 'patrol_down' or robot.GetYourSignal() == 'patrol_left':
                         
-                        robot.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
+                        robot.DeployVirus( ((robot.GetTotalElixir() / 26) * 8  + 400) )
                         return 0
                 
                 if not robot.GetCurrentBaseSignal():
@@ -204,7 +204,7 @@ def ActBase(base):
                         base.SetYourSignal(i)
 
         if (base.investigate_down() == 'enemy' or base.investigate_up() == 'enemy' or base.investigate_right() == 'enemy' or base.investigate_left() == 'enemy' or base.investigate_ne() == 'enemy' or base.investigate_nw() == 'enemy' or base.investigate_se() == 'enemy' or base.investigate_sw() == 'enemy') or (base.investigate_down() == 'enemy-base' or base.investigate_up() == 'enemy-base' or base.investigate_right() == 'enemy-base' or base.investigate_left() == 'enemy-base' or base.investigate_ne() == 'enemy-base' or base.investigate_nw() == 'enemy-base' or base.investigate_se() == 'enemy-base' or base.investigate_sw() == 'enemy-base'):
-                base.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
+                base.DeployVirus( ((base.GetTotalElixir() / 26) * 8  + 400) )
                 
                 
         # format is -> ( elixir we will be allocated at start ) - ( num of robots we want ) * ( cost of robot= 50 )
