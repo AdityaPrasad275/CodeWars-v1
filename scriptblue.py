@@ -109,10 +109,12 @@ def ActRobot(robot):
         if (robot.investigate_down() == 'enemy' or robot.investigate_up() == 'enemy' or robot.investigate_right() == 'enemy' or robot.investigate_left() == 'enemy' or robot.investigate_ne() == 'enemy' or robot.investigate_nw() == 'enemy' or robot.investigate_se() == 'enemy' or robot.investigate_sw() == 'enemy'):
                
                 if robot.GetYourSignal() == 'patrol_up' or robot.GetYourSignal() == 'patrol_right' or robot.GetYourSignal() == 'patrol_down' or robot.GetYourSignal() == 'patrol_left':
+                        
                         robot.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
                         return 0
                 
                 if not robot.GetCurrentBaseSignal():
+                        
                         if robot.GetInitialSignal() == 'explore' or robot.GetYourSignal() == 'explore':
                                 robot.DeployVirus( robot.GetVirus() * 0.1) 
                                 if robot.investigate_up() == 'enemy':
@@ -139,6 +141,7 @@ def ActRobot(robot):
                                 return 4
                 
                 if abs(enemy_pos[0] - bot_pos[0]) < abs(enemy_pos[1] - bot_pos[1]):
+                        
                         if (enemy_pos[1] - bot_pos[1]) > 0:
                                 return 3
                         elif (enemy_pos[1] - bot_pos[1]) < 0:
@@ -206,7 +209,9 @@ def ActBase(base):
                 
         # format is -> ( elixir we will be allocated at start ) - ( num of robots we want ) * ( cost of robot= 50 )
         if base.GetElixir() > (2000 - 4*50): # we want 4 patrol robots  
+                
                 base.create_robot('patrol')     
+        
         elif base.GetElixir() > (2000 - 30*50):
                 
                 for i in patrol_spots:
