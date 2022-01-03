@@ -74,6 +74,7 @@ from random import randint,choice
 def ActRobot(robot):
 
         if (robot.investigate_down() == 'enemy-base' or robot.investigate_up() == 'enemy-base' or robot.investigate_right() == 'enemy-base' or robot.investigate_left() == 'enemy-base' or robot.investigate_ne() == 'enemy-base' or robot.investigate_nw() == 'enemy-base' or robot.investigate_se() == 'enemy-base' or robot.investigate_sw() == 'enemy-base'):
+                
                 robot.DeployVirus(robot.GetVirus())
                 t = robot.GetPosition()
                 if not robot.GetCurrentBaseSignal():
@@ -106,12 +107,16 @@ def ActRobot(robot):
         if (robot.investigate_down() == 'enemy' or robot.investigate_up() == 'enemy' or robot.investigate_right() == 'enemy' or robot.investigate_left() == 'enemy' or robot.investigate_ne() == 'enemy' or robot.investigate_nw() == 'enemy' or robot.investigate_se() == 'enemy' or robot.investigate_sw() == 'enemy'):
                
                 if robot.GetYourSignal() == 'patrol_up' or robot.GetYourSignal() == 'patrol_right' or robot.GetYourSignal() == 'patrol_down' or robot.GetYourSignal() == 'patrol_left':
+                        
                         robot.DeployVirus( ((robot.GetTotalElxir() / 26) * 8  + 400) )
                         return 0
                 
                 if not robot.GetCurrentBaseSignal():
+                        
                         if robot.GetInitialSignal() == 'explore' or robot.GetYourSignal() == 'explore':
+                                
                                 robot.DeployVirus( robot.GetVirus() * 0.1) 
+                                
                                 if robot.investigate_up() == 'enemy':
                                         return choice([2, 3, 4])
                                 elif robot.investigate_right() == 'enemy':
@@ -122,15 +127,19 @@ def ActRobot(robot):
                                         return choice([2, 3, 1])
         
         if robot.GetCurrentBaseSignal() and (robot.GetInitialSignal() == 'explore' or robot.GetYourSignal() == 'explore'):
+                
                 ebase_pos = robot.GetCurrentBaseSignal()
                 e = ebase_pos.split(":")[1].split(",")
                 enemy_pos = (int(e[0]), int(e[1]))
                 bot_pos = robot.GetPosition()
+                
                 if abs(enemy_pos[0] - bot_pos[0]) >= abs(enemy_pos[1] - bot_pos[1]):
+                        
                         if (enemy_pos[0] - bot_pos[0]) > 0:
                                 return 2
                         elif (enemy_pos[0] - bot_pos[0]) < 0:
                                 return 4
+                
                 if abs(enemy_pos[0] - bot_pos[0]) < abs(enemy_pos[1] - bot_pos[1]):
                         if (enemy_pos[1] - bot_pos[1]) > 0:
                                 return 3
@@ -139,6 +148,7 @@ def ActRobot(robot):
                 
         
         if robot.GetInitialSignal() == 'patrol':
+                
                 if (robot.investigate_down() == 'friend-base' or robot.investigate_up() == 'friend-base' or robot.investigate_right() == 'friend-base' or robot.investigate_left() == 'friend-base' or robot.investigate_ne() == 'friend-base' or robot.investigate_nw() == 'friend-base' or robot.investigate_se() == 'friend-base' or robot.investigate_sw() == 'friend-base'):
                         return 0
                 elif robot.investigate_up() == 'blank':
@@ -156,6 +166,7 @@ def ActRobot(robot):
                 else:
                         robot.setSignal('explore')
                         return randint(1,4)
+        
         elif robot.GetInitialSignal() == 'patrol_up' and robot.GetYourSignal() == '':
                 robot.setSignal('patrol_up')
                 return 1
